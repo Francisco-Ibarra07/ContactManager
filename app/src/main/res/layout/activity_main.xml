@@ -18,21 +18,21 @@
         app:srcCompat="@drawable/logo_transparent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/userPasswordInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText3"
+        android:layout_alignStart="@+id/userEmailInput"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="217dp"
         android:background="#11000000"
+        android:drawableLeft="@drawable/ic_action_password"
         android:ems="10"
         android:hint="Password"
-        android:textColorHint="#fff"
-        android:drawableLeft="@drawable/ic_action_password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColorHint="#fff" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/userEmailInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -55,6 +55,14 @@
         android:elevation="10dp"
         app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="25dp">
+
+        <Button
+            android:id="@+id/loginButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            android:textColor="@color/colorAccent" />
 
         <RelativeLayout
             android:layout_width="match_parent"
