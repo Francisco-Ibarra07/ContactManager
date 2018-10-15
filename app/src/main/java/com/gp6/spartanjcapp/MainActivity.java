@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method checks the input of the user's email and password.
      * Checks for any errors and checks to see if login credentials are correct.
-     *
+     * If correct, user is taken to Home Page of the app
      */
     private void validateLoginCredentials(){
 
@@ -58,11 +58,17 @@ public class MainActivity extends AppCompatActivity {
 
         //Check to make sure that BOTH user email and password are filled in
         if(email.isEmpty() || password.isEmpty()){
-            Toast.makeText(this, "Be sure to input both your username and password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Be sure to input both your username and password!", Toast.LENGTH_LONG).show();
             return;
         }
 
-        //Check to see if login credentials are correct on firebase
+        //Check to see if password is at least 6 characters long (Required to be able to store in Firebase)
+        if(password.length() < 6){
+            Toast.makeText(this, "Password must be at least 6 characters long!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        //Check to see if login credentials are correct on Firebase
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

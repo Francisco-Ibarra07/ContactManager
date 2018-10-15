@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.gp6.spartanjcapp.Contact;
 
 public class ContactManager {
 
@@ -32,10 +33,33 @@ public class ContactManager {
     }
 
     /**
-     * This method adds a new contact
+     * This method adds a new contact object to the user's contacts.
+     * Stores contact on Firebase
+     *
+     * @param addMe contact object to add to database
      */
-    public void addNewContact(){}
-    public void deleteContact(){}
-    public void editContact(){}
+    public void addNewContact(Contact addMe){
+        
+    }
+
+    /**
+     * This method deletes the given contact object off of the user's contacts.
+     * Stores update on Firebase
+     *
+     * @param deleteMe contact object to add to database
+     */
+    public void deleteContact(Contact deleteMe){
+
+    }
+
+    /**
+     * This method edits the given contact object.
+     * Stores update on Firebase
+     *
+     * @param editMe contact object to add to database
+     */
+    public void editContact(Contact editMe){
+
+    }
 
 }
