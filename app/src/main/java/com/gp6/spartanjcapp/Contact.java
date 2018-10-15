@@ -19,7 +19,6 @@ public class Contact {
         phoneNumber = 0;
     }
 
-
     public void setFirstName(String firstName){
         this.firstName = firstName;
     }
@@ -34,6 +33,22 @@ public class Contact {
 
     public void setPhoneNumber(int phoneNumber){
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getFirstName(){
+        return this.firstName;
+    }
+
+    public String getLastName(){
+        return this.lastName;
+    }
+
+    public String getEmail(){
+        return this.email;
+    }
+
+    public int getPhoneNumber(){
+        return this.phoneNumber;
     }
 }
 
