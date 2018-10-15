@@ -34,6 +34,8 @@ dependencies {
 
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
+    implementation 'com.google.firebase:firebase-database:16.0.3'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

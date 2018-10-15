@@ -58,7 +58,6 @@ public class HomePage extends AppCompatActivity {
 
         }
 
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
