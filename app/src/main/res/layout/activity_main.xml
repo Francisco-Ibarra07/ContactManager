@@ -81,7 +81,7 @@
     </android.support.v7.widget.CardView>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/createAccountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -89,16 +89,5 @@
         android:layout_marginBottom="96dp"
         android:text="Create an account"
         android:textColor="#fff"/>
-
-    <Button
-        android:id="@+id/createAccountButton"
-        android:layout_width="112dp"
-        android:layout_height="27dp"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_marginStart="-1dp"
-        android:layout_marginTop="-2dp"
-        android:text="create account"
-        android:visibility="invisible" />
 
 </RelativeLayout>

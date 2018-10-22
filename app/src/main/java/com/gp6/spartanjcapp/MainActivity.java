@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -14,10 +15,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
+
 
     private EditText userEmail, userPassword;
     private Button loginButton;
+    private TextView createAccount;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -25,10 +30,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initializes all instance variables
         initializeUserInputVariables();
 
+        //Initializes Firebase authorization
         firebaseAuth = FirebaseAuth.getInstance();
 
+        //If login button pressed, validate credentials
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,12 +45,26 @@ public class MainActivity extends AppCompatActivity {
                 validateLoginCredentials();
             }
         });
+
+        //If 'create an account' button is pressed, switch to account sign up activity
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCreateAccountScreen();
+            }
+        });
     }
 
+    /**
+     * This method initializes all instance variables.
+     * Instance variables include all buttons/textboxes that the user can
+     * fill in or press.
+     */
     private void initializeUserInputVariables(){
         userEmail = (EditText)findViewById(R.id.userEmailInput);
         userPassword = (EditText)findViewById(R.id.userPasswordInput);
         loginButton = (Button)findViewById(R.id.loginButton);
+        createAccount = (TextView) findViewById(R.id.createAccountTextView);
     }
 
     /**
@@ -75,5 +97,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void openCreateAccountScreen(){
+        Intent intent = new Intent(this, CreateAccountScreen.class);
+        startActivity(intent);
     }
 }
