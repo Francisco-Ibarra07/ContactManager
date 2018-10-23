@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "903801146673",
+    "firebase_url": "https://spartanjcapp.firebaseio.com",
+    "project_id": "spartanjcapp",
+    "storage_bucket": "spartanjcapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903801146673:android:e6e60ebd2538822c",
+        "android_client_info": {
+          "package_name": "com.gp6.spartanjcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903801146673-j37tuj7h2d5b5fsh29u3tqj8fb0jduqk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gp6.spartanjcapp",
+            "certificate_hash": "d279575a1bbe9259fcf156f1a8ac8684d0f007d3"
+          }
+        },
+        {
+          "client_id": "903801146673-jeptc3qj9tpdm2g2a4qcoc2d1aotp2s2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMdnwbGCTDJFOn2pQEYy3sQQtvM4973rk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903801146673-jeptc3qj9tpdm2g2a4qcoc2d1aotp2s2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
