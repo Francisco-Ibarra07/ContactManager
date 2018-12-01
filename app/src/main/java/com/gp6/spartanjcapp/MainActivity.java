@@ -19,10 +19,12 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    //Instance variables to store user input
     private EditText userEmail, userPassword;
     private Button loginButton;
     private TextView createAccount;
+
+    //Holds a key in order to access Firebase
     private FirebaseAuth firebaseAuth;
 
     @Override

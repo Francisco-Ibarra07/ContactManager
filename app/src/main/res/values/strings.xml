@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">SpartanJCApp</string>
-
+    <string name="action_settings">Settings</string>
 </resources>

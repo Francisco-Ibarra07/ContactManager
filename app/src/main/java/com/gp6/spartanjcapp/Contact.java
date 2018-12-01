@@ -7,20 +7,20 @@ package com.gp6.spartanjcapp;
  */
 public class Contact {
 
-    private String firstName;
+    private String name;
     private String lastName;
     private String email;
     private int phoneNumber;
 
-    public Contact(){
-        firstName = "";
-        lastName = "";
-        email = "";
-        phoneNumber = 0;
+    public Contact(String name, String email, int phoneNumber){
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
-    public void setFirstName(String firstName){
-        this.firstName = firstName;
+    public void setFirstName(String name){
+        this.name = name;
     }
 
     public void setLastName(String lastName){
@@ -35,8 +35,8 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getFirstName(){
-        return this.firstName;
+    public String getName(){
+        return this.name;
     }
 
     public String getLastName(){

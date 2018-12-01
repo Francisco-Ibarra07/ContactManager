@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomePage" />
-        <activity android:name=".CreateAccountScreen"></activity>
+        <activity android:name=".CreateAccountScreen" />
+        <activity android:name=".ContactView"></activity>
     </application>
 
 </manifest>
