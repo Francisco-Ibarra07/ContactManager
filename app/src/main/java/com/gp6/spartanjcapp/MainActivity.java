@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //When the user clicks 'login', if credentials are correct the user will be
                 //taken to the home page
                 validateLoginCredentials();
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Authentication failed. Check username or password!",Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    finish();
                     Toast.makeText(getBaseContext(), "Authentication Successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, HomePage.class));
                 }

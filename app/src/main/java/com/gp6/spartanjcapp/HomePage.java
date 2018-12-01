@@ -9,22 +9,32 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 
+/*
+    TODO
+        1) Overlay button does not do anything when clicked
+        2) Replaced fake names with real contacts
+        3) Be able to pass in uId to contact view activity
+        4) Be able to press overlay button and choose add via scan or manually (
+            (If that does not work, do it through hamburger window)
+
+ */
 public class HomePage extends AppCompatActivity {
 
     private Button qrCodeScanButton;
     private Button overlayButton;
-    private FirebaseAuth loggedInUser;
+    private TextView displayName;
+    private FirebaseAuth currentFirebaseAuth;
+    private FirebaseUser currentFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,24 +43,37 @@ public class HomePage extends AppCompatActivity {
         final Activity activity = this;
 
         //Initialize buttons
-        //initializeUserInputVariables();
+        initializeUserInputVariables();
 
-        String[] array = {"Francisco Ibarra","Joe Swanson", "Erick Hernandez", "Mr. Robot", "Joey",
-                         "Albert", "Jose Hernandez"};
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_homepage_listview, array);
-        ListView listView = (ListView) findViewById(R.id.contactsListHomePage);
-        listView.setAdapter(adapter);
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentFirebaseAuth = FirebaseAuth.getInstance();
 
-//        overlayButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FirebaseAuth.getInstance().signOut();
+        String userEmail = currentFirebaseUser.getEmail();
+        String currentUid = currentFirebaseUser.getUid();
+        String userDisplayName = getIntent().getStringExtra("DISPLAY_NAME");
+        String phoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+        //Set display name under profile photo
+        displayName.setText(userDisplayName);
+
+//        //Grab all contacts from user given a user id
+//        ArrayList<String> updatedContactList = getContactsListOfUser(currentUid);
 //
-////                Intent intent = new Intent(activity, ContactView.class);
-////                //intent.putExtra("CONTACT_UID", "Value passed from homepage");
-////                startActivity(intent);
-//            }
-//        });
+//        //Create adapter and display updated contact list onto ListView
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_homepage_listview, updatedContactList);
+//        ListView listView = (ListView) findViewById(R.id.contactsListHomePage);
+//        listView.setAdapter(adapter);
+
+        //When overlay button is pressed do action
+        overlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(getBaseContext(), "Signed out", Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(activity, ContactView.class);
+//                //intent.putExtra("CONTACT_UID", "Value passed from homepage");
+//                startActivity(intent);
+            }
+        });
 
 
 //        qrCodeScanButton.setOnClickListener(new View.OnClickListener() {
@@ -69,9 +92,16 @@ public class HomePage extends AppCompatActivity {
 
     private void initializeUserInputVariables(){
         //qrCodeScanButton = findViewById(R.id.qrScanButton);
-        //overlayButton = findViewById(R.id.overlayHomeBtn);
+        overlayButton = findViewById(R.id.overlayButton);
+        displayName = findViewById(R.id.displayNameTextView);
     }
 
+    private void updateContactList(ArrayList<String> updatedContactList){
+
+
+
+    }
+    //private ArrayList<String> getContactsListOfUser(String userUid){    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

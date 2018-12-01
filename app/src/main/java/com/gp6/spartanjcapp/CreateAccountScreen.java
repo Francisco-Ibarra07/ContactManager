@@ -20,7 +20,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class CreateAccountScreen extends AppCompatActivity {
 
-
     private Button finishButton;
     private EditText phoneNumber;
     private EditText firstName;
@@ -61,8 +60,14 @@ public class CreateAccountScreen extends AppCompatActivity {
      *
      */
     private void openHomePage(){
+        finish();
+        String displayName = firstName.getText().toString() + " " + lastName.getText().toString();
+        String number = phoneNumber.getText().toString();
+
         Toast.makeText(this, "Account created!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, HomePage.class);
+        intent.putExtra("DISPLAY_NAME", displayName);
+        intent.putExtra("PHONE_NUMBER", number);
         startActivity(intent);
     }
 
@@ -136,18 +141,14 @@ public class CreateAccountScreen extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+
                     firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                     firebaseUser.updateEmail(emailAddress.getText().toString());
                     firebaseUser.updatePassword(password.getText().toString());
 
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(firstName.getText().toString() + lastName.getText().toString())
-                            .build();
-
-                    firebaseUser.updateProfile(profileChangeRequest);
-
                     //Take user to home page of application and prompt success message
                     openHomePage();
+
                 } else {
                     //If it fails, display an error message to the user
                     Log.w("createUser:failure", task.getException());
