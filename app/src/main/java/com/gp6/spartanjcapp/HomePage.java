@@ -34,10 +34,13 @@ import java.util.Collections;
                 (If that does not work, do it through hamburger window)
         (DONE) 5) Make adding contacts manually possible
         (DONE) 6) Test to be able to add one contact onto one of the user's contact list on Firebase
-        7) Generate QR code to a user
-        8) Replaced fake names in "Contact View" activity with real contacts
+        7) Make list view clickable
+        8) Generate QR code to a user
+        9) Replaced fake names in "Contact View" activity with real contacts
             Pass in contact object
             Use that information to fill our contact view page
+        10) Get info from scanned QR code and add to database
+        11) Add hamburger icon side
 
  */
 public class HomePage extends AppCompatActivity {
@@ -47,6 +50,7 @@ public class HomePage extends AppCompatActivity {
     private Button overlayButton;
     private ListView contactListView;
     private TextView displayName;
+    private boolean overlayClicked;
 
     private FirebaseAuth currentFirebaseAuth;
     private DatabaseReference myDatabase;
@@ -102,8 +106,18 @@ public class HomePage extends AppCompatActivity {
         overlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                qrCodeScanButton.setVisibility(View.VISIBLE);
-                addContactManuallyButton.setVisibility(View.VISIBLE);
+                overlayClicked = !overlayClicked;
+
+                if(overlayClicked){
+                    qrCodeScanButton.setVisibility(View.VISIBLE);
+                    addContactManuallyButton.setVisibility(View.VISIBLE);
+                }
+                else{
+                    qrCodeScanButton.setVisibility(View.INVISIBLE);
+                    addContactManuallyButton.setVisibility(View.INVISIBLE);
+                }
+
+
 
 //                FirebaseAuth.getInstance().signOut();
 //                Toast.makeText(getBaseContext(), "Signed out", Toast.LENGTH_LONG).show();
@@ -154,6 +168,10 @@ public class HomePage extends AppCompatActivity {
         addContactManuallyButton = findViewById(R.id.addManuallyButton);
         displayName = findViewById(R.id.displayNameTextView);
         contactListView = (ListView) findViewById(R.id.contactsListHomePage);
+        overlayClicked = false;
+    }
+
+    private void generateQRCode(){
 
     }
 
