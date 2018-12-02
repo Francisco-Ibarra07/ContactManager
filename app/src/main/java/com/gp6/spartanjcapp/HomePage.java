@@ -6,23 +6,85 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+
+/*
+    TODO
+        (DONE) 1) Overlay button does not do anything when clicked
+        (DONE) 3) Be able to pass in uId to contact view activity
+        (DONE) 4) Be able to press overlay button and choose add via scan or manually (
+                (If that does not work, do it through hamburger window)
+        5) Make adding contacts manually possible
+        6) Test to be able to add one contact onto one of the user's contact list on Firebase
+        7) Generate QR code to a user
+        8) Replaced fake names with real contacts
+ */
 public class HomePage extends AppCompatActivity {
 
     private Button qrCodeScanButton;
+    private Button addContactManuallyButton;
+    private Button overlayButton;
+    private TextView displayName;
+    private FirebaseAuth currentFirebaseAuth;
+    private FirebaseUser currentFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         final Activity activity = this;
-        qrCodeScanButton = (Button)findViewById(R.id.qrScanButton);
 
+        //Initialize buttons
+        initializeUserInputVariables();
+
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentFirebaseAuth = FirebaseAuth.getInstance();
+
+        String userEmail = currentFirebaseUser.getEmail();
+        String currentUid = currentFirebaseUser.getUid();
+        String userDisplayName = getIntent().getStringExtra("DISPLAY_NAME");
+        String phoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+        //Set display name under profile photo
+        displayName.setText(userDisplayName);
+
+//        //Grab all contacts from user given a user id
+//        ArrayList<String> updatedContactList = getContactsListOfUser(currentUid);
+//
+//        //Create adapter and display updated contact list onto ListView
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_homepage_listview, updatedContactList);
+//        ListView listView = (ListView) findViewById(R.id.contactsListHomePage);
+//        listView.setAdapter(adapter);
+
+        //When overlay button is pressed do action
+        overlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                qrCodeScanButton.setVisibility(View.VISIBLE);
+                addContactManuallyButton.setVisibility(View.VISIBLE);
+
+//                FirebaseAuth.getInstance().signOut();
+//                Toast.makeText(getBaseContext(), "Signed out", Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(activity, ContactView.class);
+//                //intent.putExtra("CONTACT_UID", "Value passed from homepage");
+//                startActivity(intent);
+            }
+        });
+
+        /**
+         * QR Scan method which when pressed, opens up the camera and begins to listen for a QR code
+         *
+         */
         qrCodeScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,7 +97,31 @@ public class HomePage extends AppCompatActivity {
                 integrator.initiateScan();
             }
         });
+
+        /**
+         * Add contacts manually method that provides user with a new activity in order to add a contact
+         *
+         */
+        addContactManuallyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, AddContactScreen.class);
+                startActivity(intent);
+            }
+        });
     }
+
+    private void initializeUserInputVariables(){
+        qrCodeScanButton = findViewById(R.id.qrScanButton);
+        overlayButton = findViewById(R.id.overlayButton);
+        addContactManuallyButton = findViewById(R.id.addManuallyButton);
+        displayName = findViewById(R.id.displayNameTextView);
+    }
+
+    private void updateContactList(ArrayList<String> updatedContactList){
+
+    }
+    //private ArrayList<String> getContactsListOfUser(String userUid){    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -57,7 +143,6 @@ public class HomePage extends AppCompatActivity {
 
 
         }
-
 
         super.onActivityResult(requestCode, resultCode, data);
     }

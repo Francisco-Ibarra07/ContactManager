@@ -19,10 +19,12 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    //Instance variables to store user input
     private EditText userEmail, userPassword;
     private Button loginButton;
     private TextView createAccount;
+
+    //Holds a key in order to access Firebase
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //When the user clicks 'login', if credentials are correct the user will be
                 //taken to the home page
                 validateLoginCredentials();
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method checks the input of the user's email and password.
      * Checks for any errors and checks to see if login credentials are correct.
-     *
+     * If correct, user is taken to Home Page of the app
      */
     private void validateLoginCredentials(){
 
@@ -80,11 +83,17 @@ public class MainActivity extends AppCompatActivity {
 
         //Check to make sure that BOTH user email and password are filled in
         if(email.isEmpty() || password.isEmpty()){
-            Toast.makeText(this, "Be sure to input both your username and password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Be sure to input both your username and password!", Toast.LENGTH_LONG).show();
             return;
         }
 
-        //Check to see if login credentials are correct on firebase
+        //Check to see if password is at least 6 characters long (Required to be able to store in Firebase)
+        if(password.length() < 6){
+            Toast.makeText(this, "Password must be at least 6 characters long!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        //Check to see if login credentials are correct on Firebase
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -92,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Authentication failed. Check username or password!",Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    finish();
                     Toast.makeText(getBaseContext(), "Authentication Successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, HomePage.class));
                 }

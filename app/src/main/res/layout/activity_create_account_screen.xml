@@ -7,6 +7,21 @@
     tools:context=".CreateAccountScreen">
 
     <EditText
+        android:id="@+id/phoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/firstName"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="351dp"
+        android:background="#11000000"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        android:textColor="@color/colorAccent"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="128dp" />
+
+    <EditText
         android:id="@+id/firstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
