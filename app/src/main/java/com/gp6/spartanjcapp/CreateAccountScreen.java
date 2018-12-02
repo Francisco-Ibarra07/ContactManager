@@ -74,7 +74,6 @@ public class CreateAccountScreen extends AppCompatActivity {
     /**
      * This method simply initializes all the instance variables to their respective button/text boxes.
      * Whatever the user inputs into the text boxes can be accessed via these instance variables
-     *
      */
     private void initializeUserInputVariables(){
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);

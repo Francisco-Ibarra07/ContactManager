@@ -21,16 +21,19 @@ import java.util.ArrayList;
 
 /*
     TODO
-        1) Overlay button does not do anything when clicked
-        2) Replaced fake names with real contacts
-        3) Be able to pass in uId to contact view activity
-        4) Be able to press overlay button and choose add via scan or manually (
-            (If that does not work, do it through hamburger window)
-
+        (DONE) 1) Overlay button does not do anything when clicked
+        (DONE) 3) Be able to pass in uId to contact view activity
+        (DONE) 4) Be able to press overlay button and choose add via scan or manually (
+                (If that does not work, do it through hamburger window)
+        5) Make adding contacts manually possible
+        6) Test to be able to add one contact onto one of the user's contact list on Firebase
+        7) Generate QR code to a user
+        8) Replaced fake names with real contacts
  */
 public class HomePage extends AppCompatActivity {
 
     private Button qrCodeScanButton;
+    private Button addContactManuallyButton;
     private Button overlayButton;
     private TextView displayName;
     private FirebaseAuth currentFirebaseAuth;
@@ -67,38 +70,55 @@ public class HomePage extends AppCompatActivity {
         overlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(getBaseContext(), "Signed out", Toast.LENGTH_LONG).show();
+                qrCodeScanButton.setVisibility(View.VISIBLE);
+                addContactManuallyButton.setVisibility(View.VISIBLE);
+
+//                FirebaseAuth.getInstance().signOut();
+//                Toast.makeText(getBaseContext(), "Signed out", Toast.LENGTH_LONG).show();
 //                Intent intent = new Intent(activity, ContactView.class);
 //                //intent.putExtra("CONTACT_UID", "Value passed from homepage");
 //                startActivity(intent);
             }
         });
 
+        /**
+         * QR Scan method which when pressed, opens up the camera and begins to listen for a QR code
+         *
+         */
+        qrCodeScanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                integrator.setPrompt("Scan");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
+            }
+        });
 
-//        qrCodeScanButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                IntentIntegrator integrator = new IntentIntegrator(activity);
-//                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-//                integrator.setPrompt("Scan");
-//                integrator.setCameraId(0);
-//                integrator.setBeepEnabled(false);
-//                integrator.setBarcodeImageEnabled(false);
-//                integrator.initiateScan();
-//            }
-//        });
+        /**
+         * Add contacts manually method that provides user with a new activity in order to add a contact
+         *
+         */
+        addContactManuallyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, AddContactScreen.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initializeUserInputVariables(){
-        //qrCodeScanButton = findViewById(R.id.qrScanButton);
+        qrCodeScanButton = findViewById(R.id.qrScanButton);
         overlayButton = findViewById(R.id.overlayButton);
+        addContactManuallyButton = findViewById(R.id.addManuallyButton);
         displayName = findViewById(R.id.displayNameTextView);
     }
 
     private void updateContactList(ArrayList<String> updatedContactList){
-
-
 
     }
     //private ArrayList<String> getContactsListOfUser(String userUid){    }

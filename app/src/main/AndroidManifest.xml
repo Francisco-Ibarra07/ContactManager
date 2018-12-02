@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".HomePage" />
         <activity android:name=".CreateAccountScreen" />
-        <activity android:name=".ContactView"></activity>
+        <activity android:name=".ContactView" />
+        <activity android:name=".AddContactScreen"></activity>
     </application>
 
 </manifest>
