@@ -2,6 +2,7 @@ package com.gp6.spartanjcapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,10 +15,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
     TODO
@@ -25,18 +32,24 @@ import java.util.ArrayList;
         (DONE) 3) Be able to pass in uId to contact view activity
         (DONE) 4) Be able to press overlay button and choose add via scan or manually (
                 (If that does not work, do it through hamburger window)
-        5) Make adding contacts manually possible
-        6) Test to be able to add one contact onto one of the user's contact list on Firebase
+        (DONE) 5) Make adding contacts manually possible
+        (DONE) 6) Test to be able to add one contact onto one of the user's contact list on Firebase
         7) Generate QR code to a user
-        8) Replaced fake names with real contacts
+        8) Replaced fake names in "Contact View" activity with real contacts
+            Pass in contact object
+            Use that information to fill our contact view page
+
  */
 public class HomePage extends AppCompatActivity {
 
     private Button qrCodeScanButton;
     private Button addContactManuallyButton;
     private Button overlayButton;
+    private ListView contactListView;
     private TextView displayName;
+
     private FirebaseAuth currentFirebaseAuth;
+    private DatabaseReference myDatabase;
     private FirebaseUser currentFirebaseUser;
 
     @Override
@@ -48,23 +61,42 @@ public class HomePage extends AppCompatActivity {
         //Initialize buttons
         initializeUserInputVariables();
 
-        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        currentFirebaseAuth = FirebaseAuth.getInstance();
-
         String userEmail = currentFirebaseUser.getEmail();
         String currentUid = currentFirebaseUser.getUid();
         String userDisplayName = getIntent().getStringExtra("DISPLAY_NAME");
         String phoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
+
         //Set display name under profile photo
         displayName.setText(userDisplayName);
 
-//        //Grab all contacts from user given a user id
-//        ArrayList<String> updatedContactList = getContactsListOfUser(currentUid);
-//
-//        //Create adapter and display updated contact list onto ListView
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_homepage_listview, updatedContactList);
-//        ListView listView = (ListView) findViewById(R.id.contactsListHomePage);
-//        listView.setAdapter(adapter);
+        myDatabase.addValueEventListener(new ValueEventListener() {
+            //Grab all contacts from user given a user id
+            ArrayList updatedContactList = new ArrayList<String>();
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                updatedContactList.clear();
+
+                for(DataSnapshot contacts: dataSnapshot.getChildren()){
+                    Contact newContact = contacts.getValue(Contact.class);
+
+                    updatedContactList.add(newContact.getDisplayName());
+
+                }
+                //Sort list
+                Collections.sort(updatedContactList);
+
+                //Display list
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.activity_homepage_listview, updatedContactList);
+                contactListView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //When overlay button is pressed do action
         overlayButton.setOnClickListener(new View.OnClickListener() {
@@ -112,16 +144,18 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void initializeUserInputVariables(){
+        //Initialize firebase variables
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentFirebaseAuth = FirebaseAuth.getInstance();
+        myDatabase = FirebaseDatabase.getInstance().getReference(currentFirebaseAuth.getUid());
+
         qrCodeScanButton = findViewById(R.id.qrScanButton);
         overlayButton = findViewById(R.id.overlayButton);
         addContactManuallyButton = findViewById(R.id.addManuallyButton);
         displayName = findViewById(R.id.displayNameTextView);
-    }
-
-    private void updateContactList(ArrayList<String> updatedContactList){
+        contactListView = (ListView) findViewById(R.id.contactsListHomePage);
 
     }
-    //private ArrayList<String> getContactsListOfUser(String userUid){    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

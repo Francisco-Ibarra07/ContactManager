@@ -114,12 +114,6 @@ public class CreateAccountScreen extends AppCompatActivity {
             Toast.makeText(this, "Your password must be at least 6 characters long!", Toast.LENGTH_LONG).show();
             return false;
         }
-
-        //Check to make sure a phone number was inputted
-        else if(!(phoneNumber.length() >= 10)) {
-            Toast.makeText(this, "Be sure to input your phone number correctly! (###)###-####", Toast.LENGTH_LONG).show();
-            return false;
-        }
         //Return true if all tests are passed
         else
             return true;

@@ -2,25 +2,28 @@ package com.gp6.spartanjcapp;
 
 /**
  * This class defines a "Contact" object. Each user's information, when signed up, gets stored
- * in this object type. With this information, our ContactManager class will be able to keep a
- * list of Contact objects and store them conveniently on Firebase
+ * in this object type.
  */
 public class Contact {
 
-    private String name;
+    private String firstName;
     private String lastName;
     private String email;
-    private int phoneNumber;
+    private String phoneNumber;
 
-    public Contact(String name, String email, int phoneNumber){
-        this.name = name;
+    public Contact(){
+
+    }
+
+    public Contact(String firstName, String lastName, String email, String phoneNumber){
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public void setFirstName(String name){
-        this.name = name;
+    public void setFirstName(String firstName){
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName){
@@ -31,13 +34,15 @@ public class Contact {
         this.email = email;
     }
 
-    public void setPhoneNumber(int phoneNumber){
+    public void setPhoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
     }
 
-    public String getName(){
-        return this.name;
+    public String getFirstName(){
+        return this.firstName;
     }
+
+    public String getDisplayName() { return this.firstName + " " + this.lastName; }
 
     public String getLastName(){
         return this.lastName;
@@ -47,7 +52,7 @@ public class Contact {
         return this.email;
     }
 
-    public int getPhoneNumber(){
+    public String getPhoneNumber(){
         return this.phoneNumber;
     }
 }
