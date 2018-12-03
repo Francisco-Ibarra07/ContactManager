@@ -4,7 +4,7 @@ package com.gp6.spartanjcapp;
  * This class defines a "Contact" object. Each user's information, when signed up, gets stored
  * in this object type.
  */
-public class Contact {
+public class Contact implements Comparable<Contact>{
 
     private String firstName;
     private String lastName;
@@ -20,6 +20,11 @@ public class Contact {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public int compareTo(Contact o) {
+        return this.getDisplayName().compareTo(o.getDisplayName());
     }
 
     public void setFirstName(String firstName){

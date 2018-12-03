@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /*
     TODO
@@ -41,6 +43,7 @@ import java.util.Collections;
             Use that information to fill our contact view page
         10) Get info from scanned QR code and add to database
         11) Add hamburger icon side
+        12) Documentation
 
  */
 public class HomePage extends AppCompatActivity {
@@ -51,6 +54,7 @@ public class HomePage extends AppCompatActivity {
     private ListView contactListView;
     private TextView displayName;
     private boolean overlayClicked;
+    private List<Contact> contactList;
 
     private FirebaseAuth currentFirebaseAuth;
     private DatabaseReference myDatabase;
@@ -73,36 +77,22 @@ public class HomePage extends AppCompatActivity {
         //Set display name under profile photo
         displayName.setText(userDisplayName);
 
-        myDatabase.addValueEventListener(new ValueEventListener() {
-            //Grab all contacts from user given a user id
-            ArrayList updatedContactList = new ArrayList<String>();
 
+        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                updatedContactList.clear();
+                Contact contact = contactList.get(position);
 
-                for(DataSnapshot contacts: dataSnapshot.getChildren()){
-                    Contact newContact = contacts.getValue(Contact.class);
+                Intent intent = new Intent(getApplicationContext(), ContactView.class);
+                intent.putExtra("CONTACT_VIEW_PHONE", contact.getPhoneNumber());
+                intent.putExtra("CONTACT_VIEW_EMAIL", contact.getEmail());
+                intent.putExtra("CONTACT_VIEW_FIRSTNAME", contact.getFirstName());
+                intent.putExtra("CONTACT_VIEW_LASTNAME", contact.getLastName());
 
-                    updatedContactList.add(newContact.getDisplayName());
-
-                }
-                //Sort list
-                Collections.sort(updatedContactList);
-
-                //Display list
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.activity_homepage_listview, updatedContactList);
-                contactListView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                startActivity(intent);
             }
         });
-
-        //When overlay button is pressed do action
         overlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,8 +106,6 @@ public class HomePage extends AppCompatActivity {
                     qrCodeScanButton.setVisibility(View.INVISIBLE);
                     addContactManuallyButton.setVisibility(View.INVISIBLE);
                 }
-
-
 
 //                FirebaseAuth.getInstance().signOut();
 //                Toast.makeText(getBaseContext(), "Signed out", Toast.LENGTH_LONG).show();
@@ -169,10 +157,45 @@ public class HomePage extends AppCompatActivity {
         displayName = findViewById(R.id.displayNameTextView);
         contactListView = (ListView) findViewById(R.id.contactsListHomePage);
         overlayClicked = false;
+
+        contactList = new ArrayList<>();
     }
 
     private void generateQRCode(){
 
+    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+
+        //Add value listener to database
+        myDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                contactList.clear();
+                for(DataSnapshot contactSnapshot : dataSnapshot.getChildren()){
+                    Contact addMe = contactSnapshot.getValue(Contact.class);
+
+                    contactList.add(addMe);
+                }
+
+                //Sort contacts in alphabetical order
+                Collections.sort(contactList);
+
+                ContactList adapter = new ContactList(HomePage.this, contactList);
+
+                //Set list view on home page with info contained in adapter
+                contactListView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
