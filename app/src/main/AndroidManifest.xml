@@ -19,7 +19,7 @@
         <activity android:name=".HomePage" />
         <activity android:name=".CreateAccountScreen" />
         <activity android:name=".ContactView" />
-        <activity android:name=".AddContactScreen"></activity>
+        <activity android:name=".AddContactScreen" />
     </application>
 
 </manifest>

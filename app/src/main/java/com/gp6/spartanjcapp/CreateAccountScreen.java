@@ -18,17 +18,32 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+/**
+ * This class defines the screen that is used in order to sign up a user for the SpartanJCApp.
+ * The information inputted by the user on this screen is used by Firebase to make a new account.
+ * The user information is checked by both our code and Firebase to validate it.
+ *
+ */
 public class CreateAccountScreen extends AppCompatActivity {
 
+    //User interaction instance variables
     private Button finishButton;
     private EditText phoneNumber;
     private EditText firstName;
     private EditText lastName;
     private EditText emailAddress;
     private EditText password;
+
+    //Firebase instance variables
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
+
+    /**
+     * This is a default method used by Android Studio in order to create this screen
+     *
+     * @param savedInstanceState default Android Studio variable
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +76,11 @@ public class CreateAccountScreen extends AppCompatActivity {
      */
     private void openHomePage(){
         finish();
-        String displayName = firstName.getText().toString() + " " + lastName.getText().toString();
-        String number = phoneNumber.getText().toString();
+        String email = emailAddress.getText().toString();
 
         Toast.makeText(this, "Account created!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, HomePage.class);
-        intent.putExtra("DISPLAY_NAME", displayName);
-        intent.putExtra("PHONE_NUMBER", number);
+        intent.putExtra("CREATE_ACCOUNT_EMAIL", email);
         startActivity(intent);
     }
 

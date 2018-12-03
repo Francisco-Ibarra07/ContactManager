@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_edit_user"
+        android:icon="@drawable/ic_edit_user"
+        android:title="Edit User"
+        >
+
+    </item>
+
+    <item
+        android:id="@+id/nav_qr"
+        android:icon="@drawable/ic_qr_scan"
+        android:title="QR Scan"
+        >
+
+    </item>
+
+    <item
+        android:id="@+id/nav_groups"
+        android:icon="@drawable/ic_groups"
+        android:title="Groups"
+        >
+    </item>
+
+    <item
+        android:id="@+id/nav_duplicates"
+        android:icon="@drawable/ic_duplicates"
+        android:title="Duplicates"
+        >
+
+    </item>
+
+    <item
+        android:id="@+id/nav_block"
+        android:icon="@drawable/ic_block"
+        android:title="Block"
+        >
+
+    </item>
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings"
+        >
+
+    </item>
+
+    <item
+        android:id="@+id/nav_log_out"
+        android:icon="@drawable/ic_log_out"
+        android:title="Log Out"
+        >
+
+    </item>
+
+</menu>

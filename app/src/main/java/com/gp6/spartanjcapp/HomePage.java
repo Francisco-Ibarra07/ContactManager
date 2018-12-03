@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,57 +26,54 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/*
-    TODO
-        (DONE) 1) Overlay button does not do anything when clicked
-        (DONE) 3) Be able to pass in uId to contact view activity
-        (DONE) 4) Be able to press overlay button and choose add via scan or manually (
-                (If that does not work, do it through hamburger window)
-        (DONE) 5) Make adding contacts manually possible
-        (DONE) 6) Test to be able to add one contact onto one of the user's contact list on Firebase
-        (DONE) 7) Make list view clickable
-        8) Generate QR code to a user
-        (DONE) 9) Replaced fake names in "Contact View" activity with real contacts
-                    Pass in contact object
-                    Use that information to fill our contact view page
-        10) Get info from scanned QR code and add to database
-        11) Add hamburger icon side
-        12) Documentation
-        (LEAST PRIORITY) 13) Have avatars change depending on user's preference
-
+/**
+ * This class represents the home page screen of the contact application. It initializes variables
+ * such as:
+ *      1) Firebase authentication, database, and reference variables
+ *      2) Text editors used when the user types in something
+ *      3) Buttons that are used to detect when a button has been pressed
+ *      4) Lists in order to display content such as a contact list
+ *
+ *
  */
 public class HomePage extends AppCompatActivity {
 
+    //User interaction instance variables
     private Button qrCodeScanButton;
     private Button addContactManuallyButton;
     private Button overlayButton;
     private ListView contactListView;
-    private TextView displayName;
     private boolean overlayClicked;
     private List<Contact> contactList;
 
+    //Firebase variables
     private FirebaseAuth currentFirebaseAuth;
     private DatabaseReference myDatabase;
     private FirebaseUser currentFirebaseUser;
 
+
+    /**
+     * This is a default method used by Android Studio in order to create this screen
+     *
+     * @param savedInstanceState default Android Studio variable
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         final Activity activity = this;
 
-        //Initialize buttons
-        initializeUserInputVariables();
-
-        String userEmail = currentFirebaseUser.getEmail();
-        String currentUid = currentFirebaseUser.getUid();
-        String userDisplayName = getIntent().getStringExtra("DISPLAY_NAME");
-        String phoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
-
-        //Set display name under profile photo
-        displayName.setText(userDisplayName);
+        /**
+         * This method initializes all instance variables defined above
+         */
+        initializeInstanceVariables();
 
 
+        /**
+         * Perform action when one of the items in the contact list is pressed.
+         * Take user to Contact View page/activity while also sending contact information
+         * of the contact that was clicked on.
+         */
         contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -94,6 +89,14 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        /**
+         * Perform action when the RED overlay button is pressed.
+         * Display's two more options for the user:
+         *      1) Add contact manually
+         *      2) Scan a QR code to add a contact
+         */
         overlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,18 +110,11 @@ public class HomePage extends AppCompatActivity {
                     qrCodeScanButton.setVisibility(View.INVISIBLE);
                     addContactManuallyButton.setVisibility(View.INVISIBLE);
                 }
-
-//                FirebaseAuth.getInstance().signOut();
-//                Toast.makeText(getBaseContext(), "Signed out", Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(activity, ContactView.class);
-//                //intent.putExtra("CONTACT_UID", "Value passed from homepage");
-//                startActivity(intent);
             }
         });
 
         /**
          * QR Scan method which when pressed, opens up the camera and begins to listen for a QR code
-         *
          */
         qrCodeScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +131,6 @@ public class HomePage extends AppCompatActivity {
 
         /**
          * Add contacts manually method that provides user with a new activity in order to add a contact
-         *
          */
         addContactManuallyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,9 +139,14 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
-    private void initializeUserInputVariables(){
+
+    /**
+     * This method initializes all instance variables defined above
+     */
+    private void initializeInstanceVariables(){
         //Initialize firebase variables
         currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         currentFirebaseAuth = FirebaseAuth.getInstance();
@@ -155,17 +155,18 @@ public class HomePage extends AppCompatActivity {
         qrCodeScanButton = findViewById(R.id.qrScanButton);
         overlayButton = findViewById(R.id.overlayButton);
         addContactManuallyButton = findViewById(R.id.addManuallyButton);
-        displayName = findViewById(R.id.displayNameTextView);
         contactListView = (ListView) findViewById(R.id.contactsListHomePage);
         overlayClicked = false;
 
         contactList = new ArrayList<>();
     }
 
-    private void generateQRCode(){
-
-    }
-
+    /**
+     * This method is used in order to READ from Firebase and display the contact list
+     * that has been saved on the user's account. Contact list is updated at the creation
+     * of the home page
+     *
+     */
     @Override
     protected void onStart() {
 
@@ -193,12 +194,18 @@ public class HomePage extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 
+    /**
+     * This method utilizes the ZXing library and grabs the feedback sent when a user is in
+     * the process of scanning a QR code
+     *
+     * @param requestCode Used by ZXing to see request
+     * @param resultCode  Used by ZXing to see result
+     * @param data  Data read
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -207,19 +214,6 @@ public class HomePage extends AppCompatActivity {
         if(result.getContents() == null){
             Toast.makeText(this, "Scan cancelled", Toast.LENGTH_LONG).show();
         }
-        //Else get the contents of 'result'. 'result.getContents()' contains the reading of the qr code
-        else{
-
-            /*
-                pseudocode:
-
-                String decodedData[] = decodeScannedData(result.getContents()); //grabs scanned data and places all info into a nice format; stored in array
-                addNewScannedUser(decodedData); //Adds new user to home page given the decoded data
-             */
-
-
-        }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

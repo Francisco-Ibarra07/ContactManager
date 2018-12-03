@@ -15,8 +15,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.w3c.dom.Text;
 
+/**
+ * This class defines the startup login page when the app is first opened.
+ * It uses Firebase in order to authenticate a user that is trying to log into his/her account.
+ * This class also gives the user the option to create a new account; which means a new activity
+ * is called.
+ */
 public class MainActivity extends AppCompatActivity {
 
     //Instance variables to store user input
@@ -27,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     //Holds a key in order to access Firebase
     private FirebaseAuth firebaseAuth;
 
+    /**
+     * This is a default method used by Android Studio in order to create this screen
+     *
+     * @param savedInstanceState default Android Studio variable
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method is used to send the user to a new screen in which they can use to make a
+     * new account.
+     *
+     */
     private void openCreateAccountScreen(){
         Intent intent = new Intent(this, CreateAccountScreen.class);
         startActivity(intent);
