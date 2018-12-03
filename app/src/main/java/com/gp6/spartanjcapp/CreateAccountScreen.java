@@ -28,6 +28,7 @@ public class CreateAccountScreen extends AppCompatActivity {
 
     //User interaction instance variables
     private Button finishButton;
+    private Button backButton;
     private EditText phoneNumber;
     private EditText firstName;
     private EditText lastName;
@@ -67,6 +68,17 @@ public class CreateAccountScreen extends AppCompatActivity {
                     createUserAccount();
             }
         });
+
+        /**
+         * This is a simple button that when pressed, it sends the user back to the home page
+         *
+         */
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -89,6 +101,7 @@ public class CreateAccountScreen extends AppCompatActivity {
      * Whatever the user inputs into the text boxes can be accessed via these instance variables
      */
     private void initializeUserInputVariables(){
+        backButton = findViewById(R.id.createAccountBackButton);
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);
         finishButton = findViewById(R.id.finishButton);
         firstName = ((EditText) findViewById(R.id.firstName));
