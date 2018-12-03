@@ -36,14 +36,15 @@ import java.util.List;
                 (If that does not work, do it through hamburger window)
         (DONE) 5) Make adding contacts manually possible
         (DONE) 6) Test to be able to add one contact onto one of the user's contact list on Firebase
-        7) Make list view clickable
+        (DONE) 7) Make list view clickable
         8) Generate QR code to a user
-        9) Replaced fake names in "Contact View" activity with real contacts
-            Pass in contact object
-            Use that information to fill our contact view page
+        (DONE) 9) Replaced fake names in "Contact View" activity with real contacts
+                    Pass in contact object
+                    Use that information to fill our contact view page
         10) Get info from scanned QR code and add to database
         11) Add hamburger icon side
         12) Documentation
+        (LEAST PRIORITY) 13) Have avatars change depending on user's preference
 
  */
 public class HomePage extends AppCompatActivity {

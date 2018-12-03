@@ -37,7 +37,6 @@ public class ContactView extends AppCompatActivity {
         //Contact's display name
         displayName.setText(contactFirstName + " " + contactLastName + "'s Contact Info");
 
-
         String[] array = {"First Name: " + contactFirstName, "Last Name: " + contactLastName, "+" + contactPhoneNumber, contactEmail};
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, array);
         ListView listView = (ListView) findViewById(R.id.mobile_list);
