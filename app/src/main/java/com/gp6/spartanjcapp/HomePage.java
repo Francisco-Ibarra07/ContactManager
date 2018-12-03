@@ -40,6 +40,7 @@ public class HomePage extends AppCompatActivity {
 
     //User interaction instance variables
     private Button qrCodeScanButton;
+    private Button signOutButton;
     private Button addContactManuallyButton;
     private Button overlayButton;
     private ListView contactListView;
@@ -105,10 +106,12 @@ public class HomePage extends AppCompatActivity {
                 if(overlayClicked){
                     qrCodeScanButton.setVisibility(View.VISIBLE);
                     addContactManuallyButton.setVisibility(View.VISIBLE);
+                    signOutButton.setVisibility(View.VISIBLE);
                 }
                 else{
                     qrCodeScanButton.setVisibility(View.INVISIBLE);
                     addContactManuallyButton.setVisibility(View.INVISIBLE);
+                    signOutButton.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -140,6 +143,18 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        /**
+         * When 'Sign Out' button is pressed, the user account is signed out. User is taken back to home screen
+         *
+         */
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Signing off", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+
     }
 
 
@@ -153,6 +168,7 @@ public class HomePage extends AppCompatActivity {
         myDatabase = FirebaseDatabase.getInstance().getReference(currentFirebaseAuth.getUid());
 
         qrCodeScanButton = findViewById(R.id.qrScanButton);
+        signOutButton = findViewById(R.id.homePageSignOutButton);
         overlayButton = findViewById(R.id.overlayButton);
         addContactManuallyButton = findViewById(R.id.addManuallyButton);
         contactListView = (ListView) findViewById(R.id.contactsListHomePage);

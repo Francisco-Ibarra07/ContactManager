@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Authentication failed. Check username or password!",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    finish();
                     Toast.makeText(getBaseContext(), "Authentication Successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, HomePage.class));
                 }
